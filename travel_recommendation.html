@@ -407,6 +407,7 @@
 
     // Search Handler
     function handleSearch() {
+        /*
       const query = document.getElementById('searchInput').value.trim().toLowerCase();
       
       if (!query) {
@@ -436,9 +437,77 @@
           item.description.toLowerCase().includes(query)
         );
       }
+        */
 
-      renderResults(matches);
-      switchTab('results');
+
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      
+		const resultDiv = document.getElementById('resultsGrid');
+		resultDiv.innerHTML = '';
+
+		fetch('travel_recommendation_api.json')
+		  .then(response => response.json())
+		  .then(data => {
+            
+            let cats = ["beaches", "temples", "countries"];
+            let equivs = {
+                "beach": "beaches",
+                "temple": "temples",
+                "country": "countries",
+                "japan": "countries",
+                "brazil": "countries",
+                "australia": "countries"
+            };
+            
+
+              let matches = [];
+
+              if(query=="country"){
+             for(var i=0; i<data[equivs[query]].length; i++){
+              matches =   matches.concat(data[equivs[query]][i].cities);
+             }
+              }
+
+              else{
+               matches =  data[equivs[query]];
+              }
+
+
+
+                 if (matches.length > 0) {
+                    renderResults(matches);
+                    switchTab('results');
+                    return;
+                }
+
+           /* for(var i=0; i<cats.length; i++){
+                const category = cats[i];
+                const matches = data[category].filter(item => 
+                    item.name.toLowerCase().includes(query) || 
+                    item.description.toLowerCase().includes(query)
+                );
+
+                if (matches.length > 0) {
+                    renderResults(matches);
+                    switchTab('results');
+                    return;
+                }
+            }*/
+
+
+			//const condition = data.countries.find(item => item.name.toLowerCase() === query);
+
+			if (matches) {
+			    renderResults(matches);
+                switchTab('results');
+			}
+		  })
+		  .catch(error => {
+			console.error('Error:', error);
+			resultDiv.innerHTML = 'An error occurred while fetching data.';
+		  });
+
+  
     }
 
     // Render Search Results
@@ -514,5 +583,6 @@
       switchTab('home');
     });
   </script>
+
 </body>
 </html>
