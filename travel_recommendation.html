@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelBloom - Explore Dream Destinations</title>
+  <!-- Tailwind CSS 
+
+  
+  -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Montserrat', 'Open Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              dark: '#0a192f',
+              nav: '#112240',
+              teal: '#00796b',
+              tealHover: '#004d40',
+              tealLight: '#00897b',
+              orange: '#f57c00',
+              accent: '#f07167'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(10, 25, 47, 0.8);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #00796b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #004d40;
+    }
+
+    /* Background Image with Dark Overlay */
+    body {
+      background: linear-gradient(rgba(10, 25, 47, 0.65), rgba(10, 25, 47, 0.75)),
+                  url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat fixed;
+      min-height: 100vh;
+      color: #ffffff;
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .glass-card-light {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    /* Input Focus Styling */
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #26a69a !important;
+      box-shadow: 0 0 0 2px rgba(38, 166, 154, 0.3);
+    }
+  </style>
+</head>
+<body class="font-sans flex flex-col min-h-screen relative overflow-x-hidden select-none">
+
+  <!-- NAVBAR -->
+  <header class="w-full bg-[#0d1b2a] bg-opacity-95 text-white shadow-lg sticky top-0 z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+      
+      <!-- Logo -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+        <div class="w-10 h-10 rounded-full border-2 border-white/80 flex items-center justify-center bg-teal-800/50">
+          <i class="fa-solid font-bold fa-globe text-xl text-cyan-300"></i>
+        </div>
+        <span class="text-2xl font-bold tracking-tight italic font-serif text-white">TravelBloom</span>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex items-center space-x-6 md:space-x-10 text-base font-semibold">
+        <button id="nav-home" onclick="switchTab('home')" class="nav-btn transition-colors hover:text-cyan-300 py-1 border-b-2 border-transparent">Home</button>
+        <button id="nav-about" onclick="switchTab('about')" class="nav-btn transition-colors hover:text-cyan-300 py-1 border-b-2 border-transparent">About Us</button>
+        <button id="nav-contact" onclick="switchTab('contact')" class="nav-btn transition-colors hover:text-cyan-300 py-1 border-b-2 border-transparent">Contact Us</button>
+      </nav>
+
+      <!-- Search Bar -->
+      <div class="flex items-center bg-white rounded-full px-3 py-1 text-gray-800 shadow-md w-full sm:w-auto max-w-md">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Enter a destination or keyword" 
+          class="px-2 py-1 text-sm sm:text-base w-full sm:w-64 focus:outline-none text-gray-700 bg-transparent"
+          onkeydown="if(event.key === 'Enter') handleSearch()"
+        />
+        <i class="fa-solid fa-magnifying-glass text-purple-600 mr-2 cursor-pointer" onclick="handleSearch()"></i>
+        <div class="flex items-center space-x-1">
+          <button 
+            onclick="handleSearch()" 
+            class="bg-[#0e7490] hover:bg-[#155e75] text-white text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full transition-colors">
+            Search
+          </button>
+          <button 
+            onclick="handleClear()" 
+            class="bg-[#0e7490] hover:bg-[#155e75] text-white text-xs sm:text-sm font-medium px-3 py-1.5 rounded-full transition-colors">
+            Clear
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER (With Left Social Bar) -->
+  <div class="flex-grow flex relative max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- LEFT FIXED/VERTICAL SOCIAL BAR -->
+    <aside class="fixed left-4 sm:left-6 top-1/2 -translate-y-1/2 z-40 flex flex-col space-y-6 text-white text-xl sm:text-2xl bg-black/30 backdrop-blur-sm p-3 rounded-full border border-white/10 shadow-2xl">
+      <a href="#" class="hover:text-cyan-400 transition-transform transform hover:scale-125" title="Twitter/X">
+        <i class="fa-brands fa-twitter"></i>
+      </a>
+      <a href="#" class="hover:text-blue-500 transition-transform transform hover:scale-125" title="Facebook">
+        <i class="fa-brands fa-facebook-f"></i>
+      </a>
+      <a href="#" class="hover:text-pink-400 transition-transform transform hover:scale-125" title="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="#" class="hover:text-red-500 transition-transform transform hover:scale-125" title="YouTube">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </aside>
+
+    <!-- CONTENT CONTAINERS -->
+    <main class="w-full pl-12 sm:pl-16 md:pl-20 flex-grow flex items-center justify-center">
+
+      <!-- ================= 1. HOME TAB ================= -->
+      <section id="tab-home" class="tab-content w-full py-6 transition-all duration-500 ease-in-out">
+        <div class="max-w-3xl space-y-6">
+          <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-wider uppercase text-white drop-shadow-md leading-tight">
+            EXPLORE DREAM<br/>DESTINATION
+          </h1>
+
+          <p class="text-sm sm:text-base md:text-lg text-gray-100 leading-relaxed font-normal drop-shadow">
+            The Travel Recommendation App helps users explore popular travel destinations through an interactive and user-friendly interface. It allows users to search for beaches, temples, countries, or specific country names to view related cities along with images and descriptions. The app dynamically fetches data from a structured JSON file to display relevant results. It provides a simple and efficient way to discover and plan travel destinations.
+          </p>
+
+          <div class="pt-2">
+            <button 
+              onclick="switchTab('about')"
+              class="bg-[#0b5e56] hover:bg-[#073d38] text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-teal-900/50 transition-all transform hover:-translate-y-0.5 border border-teal-400/30">
+              Book Now
+            </button>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ================= 2. ABOUT US TAB ================= -->
+      <section id="tab-about" class="tab-content hidden w-full py-4 space-y-8 transition-all duration-500 ease-in-out">
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white drop-shadow-lg uppercase">
+          ABOUT US
+        </h1>
+
+        <!-- About Description Panel -->
+        <div class="glass-card rounded-xl p-6 sm:p-8 text-white max-w-5xl shadow-2xl space-y-4">
+          <p class="text-sm sm:text-base leading-relaxed">
+            Welcome to Our Company! We are a team of passionate individuals dedicated to providing excellent services/products to our customers. Our mission is to provide the best experience for people traveling to different destinations around the world.
+          </p>
+          <p class="text-sm sm:text-base leading-relaxed">
+            Our values include integrity, innovation, customer satisfaction, and teamwork. We believe in putting our customers first and working together to achieve our goals.
+          </p>
+          <p class="text-sm sm:text-base leading-relaxed">
+            Feel free to explore our website to learn more about what we offer!
+          </p>
+        </div>
+
+        <!-- Our Team Section -->
+        <div class="space-y-6">
+          <h2 class="text-3xl sm:text-4xl font-bold text-white drop-shadow">
+            Our Team
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl">
+            <!-- Team Member 1 -->
+            <div class="glass-card rounded-xl p-6 flex flex-col items-center text-center space-y-3 hover:border-teal-400/50 transition-all">
+              <div class="w-16 h-16 rounded-full bg-white text-gray-800 flex items-center justify-center text-3xl shadow-md">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <h3 class="text-xl font-bold text-white">John Doe</h3>
+              <p class="text-xs sm:text-sm text-gray-200">
+                John is responsible for overall company strategy and vision.
+              </p>
+              <span class="bg-[#1e4d6b] text-cyan-200 text-xs font-semibold px-4 py-1.5 rounded-full border border-cyan-400/30 mt-auto">
+                CEO
+              </span>
+            </div>
+
+            <!-- Team Member 2 -->
+            <div class="glass-card rounded-xl p-6 flex flex-col items-center text-center space-y-3 hover:border-teal-400/50 transition-all">
+              <div class="w-16 h-16 rounded-full bg-white text-gray-800 flex items-center justify-center text-3xl shadow-md">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <h3 class="text-xl font-bold text-white">Celina Thomas</h3>
+              <p class="text-xs sm:text-sm text-gray-200">
+                Celina leads the technical and operations team.
+              </p>
+              <span class="bg-[#1e4d6b] text-cyan-200 text-xs font-semibold px-4 py-1.5 rounded-full border border-cyan-400/30 mt-auto">
+                Team Lead
+              </span>
+            </div>
+
+            <!-- Team Member 3 -->
+            <div class="glass-card rounded-xl p-6 flex flex-col items-center text-center space-y-3 hover:border-teal-400/50 transition-all">
+              <div class="w-16 h-16 rounded-full bg-white text-gray-800 flex items-center justify-center text-3xl shadow-md">
+                <i class="fa-solid fa-user"></i>
+              </div>
+              <h3 class="text-xl font-bold text-white">Mike Tyson</h3>
+              <p class="text-xs sm:text-sm text-gray-200">
+                Mike manages project delivery and client relationships.
+              </p>
+              <span class="bg-[#1e4d6b] text-cyan-200 text-xs font-semibold px-4 py-1.5 rounded-full border border-cyan-400/30 mt-auto">
+                Delivery Head
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ================= 3. CONTACT US TAB ================= -->
+      <section id="tab-contact" class="tab-content hidden w-full py-4 transition-all duration-500 ease-in-out">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start max-w-5xl">
+          
+          <!-- Left Header Info -->
+          <div class="space-y-4 pt-4">
+            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-wider text-white uppercase drop-shadow-md">
+              CONTACT US
+            </h1>
+            <p class="text-xl text-gray-200 font-light">
+              Get in touch
+            </p>
+          </div>
+
+          <!-- Right Contact Form Panel -->
+          <div class="glass-card rounded-xl p-6 sm:p-8 shadow-2xl space-y-4 border border-white/20">
+            <form id="contactForm" onsubmit="handleContactSubmit(event)" class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-white mb-1">Name</label>
+                <input 
+                  type="text" 
+                  required 
+                  placeholder="Enter your name"
+                  class="w-full bg-slate-900/40 text-white placeholder-gray-400 border border-white/30 rounded-md px-4 py-2.5 text-sm"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-white mb-1">Email</label>
+                <input 
+                  type="email" 
+                  required 
+                  placeholder="Enter your email"
+                  class="w-full bg-slate-900/40 text-white placeholder-gray-400 border border-white/30 rounded-md px-4 py-2.5 text-sm"
+                />
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-white mb-1">Message</label>
+                <textarea 
+                  rows="5" 
+                  required 
+                  placeholder="Enter your message"
+                  class="w-full bg-slate-900/40 text-white placeholder-gray-400 border border-white/30 rounded-md px-4 py-2.5 text-sm resize-none"
+                ></textarea>
+              </div>
+
+              <button 
+                type="submit" 
+                class="w-full bg-[#0e7490] hover:bg-[#155e75] text-white font-semibold py-3 rounded-md transition-colors shadow-md mt-2">
+                Submit
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ================= 4. RESULTS TAB ================= -->
+      <section id="tab-results" class="tab-content hidden w-full py-4 space-y-6 transition-all duration-500 ease-in-out">
+        
+        <h1 id="resultsTitle" class="text-3xl sm:text-4xl font-bold text-[#f57c00] drop-shadow-md">
+          Search Results
+        </h1>
+
+        <!-- Results Grid -->
+        <div id="resultsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl">
+          <!-- Dynamic cards injected here via JS -->
+        </div>
+
+        <!-- Empty state message -->
+        <div id="noResults" class="hidden glass-card p-8 rounded-xl text-center max-w-md mx-auto space-y-3">
+          <i class="fa-solid fa-circle-exclamation text-4xl text-amber-400"></i>
+          <p class="text-lg text-white font-medium">No destination matching your query was found.</p>
+          <p class="text-xs text-gray-300">Try keywords like: <b>beach, temple, japan, brazil, australia</b></p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification Modal -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-teal-800 text-white px-6 py-3 rounded-lg shadow-2xl border border-teal-400/40 transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center space-x-3">
+    <i class="fa-solid fa-circle-check text-emerald-400 text-xl"></i>
+    <span id="toastMsg" class="text-sm font-medium">Message sent successfully!</span>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // Simulated JSON database of destinations
+    const travelDatabase = {
+      beaches: [
+        {
+          name: "Bora Bora, French Polynesia",
+          description: "An island known for its stunning turquoise waters and luxurious overwater bungalows.",
+          imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          name: "Copacabana Beach, Brazil",
+          description: "A famous beach in Rio de Janeiro, Brazil, with a vibrant atmosphere and scenic views.",
+          imageUrl: "https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=800&auto=format&fit=crop"
+        }
+      ],
+      temples: [
+        {
+          name: "Angkor Wat, Cambodia",
+          description: "A massive temple complex and stunning UNESCO World Heritage site surrounded by jungle history.",
+          imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          name: "Kyoto Temples, Japan",
+          description: "Historic wooden temples nestled amidst peaceful zen gardens and iconic bamboo groves.",
+          imageUrl: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=800&auto=format&fit=crop"
+        }
+      ],
+      countries: [
+        {
+          name: "Tokyo, Japan",
+          description: "A bustling metropolis blending ultra-modern tech with rich traditional shrines and cuisine.",
+          imageUrl: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=800&auto=format&fit=crop"
+        },
+        {
+          name: "Sydney, Australia",
+          description: "Home to the iconic opera house, beautiful harbor, sandy beaches, and vibrant culture.",
+          imageUrl: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=800&auto=format&fit=crop"
+        }
+      ]
+    };
+
+    // Tab Switcher
+    function switchTab(tabName) {
+      // Hide all tabs
+      const tabs = document.querySelectorAll('.tab-content');
+      tabs.forEach(tab => tab.classList.add('hidden'));
+
+      // Show selected tab
+      const activeTab = document.getElementById(`tab-${tabName}`);
+      if (activeTab) {
+        activeTab.classList.remove('hidden');
+      }
+
+      // Update Nav active styling
+      const navBtns = document.querySelectorAll('.nav-btn');
+      navBtns.forEach(btn => {
+        btn.classList.remove('border-white', 'text-cyan-300');
+        btn.classList.add('border-transparent');
+      });
+
+      const currentNav = document.getElementById(`nav-${tabName}`);
+      if (currentNav) {
+        currentNav.classList.add('border-white', 'text-cyan-300');
+        currentNav.classList.remove('border-transparent');
+      }
+    }
+
+    // Search Handler
+    function handleSearch() {
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      
+      if (!query) {
+        showToast("Please enter a search keyword");
+        return;
+      }
+
+      let matches = [];
+
+      // Category / Keyword logic matching JSON dynamic rules
+      if (query.includes('beach')) {
+        matches = travelDatabase.beaches;
+      } else if (query.includes('temple')) {
+        matches = travelDatabase.temples;
+      } else if (query.includes('country') || query.includes('japan') || query.includes('brazil') || query.includes('australia')) {
+        matches = travelDatabase.countries;
+        if (query.includes('japan')) {
+          matches = [travelDatabase.countries[0], travelDatabase.temples[1]];
+        } else if (query.includes('brazil')) {
+          matches = [travelDatabase.beaches[1]];
+        }
+      } else {
+        // Fallback filter over all entries
+        const allItems = [...travelDatabase.beaches, ...travelDatabase.temples, ...travelDatabase.countries];
+        matches = allItems.filter(item => 
+          item.name.toLowerCase().includes(query) || 
+          item.description.toLowerCase().includes(query)
+        );
+      }
+
+      renderResults(matches);
+      switchTab('results');
+    }
+
+    // Render Search Results
+    function renderResults(results) {
+      const resultsGrid = document.getElementById('resultsGrid');
+      const noResults = document.getElementById('noResults');
+
+      resultsGrid.innerHTML = '';
+
+      if (results.length === 0) {
+        noResults.classList.remove('hidden');
+        return;
+      } else {
+        noResults.classList.add('hidden');
+      }
+
+      results.forEach(item => {
+        const card = document.createElement('div');
+        card.className = "bg-white/95 rounded-xl border-4 border-white overflow-hidden shadow-2xl text-gray-900 transition-transform duration-300 hover:scale-[1.02]";
+
+        card.innerHTML = `
+          <div class="h-56 w-full overflow-hidden relative">
+            <img 
+              src="${item.imageUrl}" 
+              alt="${item.name}" 
+              class="w-full h-full object-cover"
+              onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=800&auto=format&fit=crop'"
+            />
+          </div>
+          <div class="p-4 text-center bg-white">
+            <h3 class="text-xl font-bold text-slate-900 underline decoration-slate-400 underline-offset-4 mb-2">
+              ${item.name}
+            </h3>
+            <p class="text-xs sm:text-sm text-gray-700 leading-snug">
+              ${item.description}
+            </p>
+          </div>
+        `;
+        resultsGrid.appendChild(card);
+      });
+    }
+
+    // Clear Search Input & Return to Home
+    function handleClear() {
+      document.getElementById('searchInput').value = '';
+      switchTab('home');
+    }
+
+    // Handle Contact Form Submit
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      showToast("Thank you! Your message has been sent.");
+      e.target.reset();
+    }
+
+    // Show Toast Message
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = message;
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // Initialize Default Tab
+    window.addEventListener('DOMContentLoaded', () => {
+      switchTab('home');
+    });
+  </script>
+</body>
+</html>
