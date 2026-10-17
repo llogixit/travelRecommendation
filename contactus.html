@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelBloom - Contact Us</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brandTeal: '#0f766e',
+                        brandTealHover: '#115e59',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar and background setup */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .bg-hero-city {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.45), rgba(15, 23, 42, 0.55)), 
+                              url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* Glassmorphism subtle overlay style matching design */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .glass-input {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+
+        .glass-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .glass-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex flex-col justify-between bg-hero-city relative overflow-x-hidden">
+
+    <!-- Top Navigation Header -->
+    <header class="w-full bg-slate-900/80 backdrop-blur-md border-b border-white/10 fixed top-0 left-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 text-2xl font-bold tracking-tight text-white group">
+                <div class="w-10 h-10 rounded-full border-2 border-white/80 flex items-center justify-center bg-white/10 group-hover:bg-white/20 transition">
+                    <i class="fa-solid font-bold fa-plane-departure text-white text-lg transform -rotate-12"></i>
+                </div>
+                <span class="tracking-wide">TravelBloom</span>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-10 text-base font-medium">
+                <a href="#home" class="text-white/80 hover:text-white transition duration-200">Home</a>
+                <a href="#about" class="text-white/80 hover:text-white transition duration-200">About Us</a>
+                <a href="#contact" class="text-white border-b-2 border-teal-500 pb-0.5 font-semibold">Contact Us</a>
+            </nav>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="menu-btn" class="md:hidden text-white focus:outline-none p-2" aria-label="Toggle Navigation">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900/95 border-b border-white/10 px-6 py-4 flex flex-col space-y-4">
+            <a href="#home" class="text-white/80 hover:text-white py-1">Home</a>
+            <a href="#about" class="text-white/80 hover:text-white py-1">About Us</a>
+            <a href="#contact" class="text-teal-400 font-semibold py-1">Contact Us</a>
+        </div>
+    </header>
+
+    <!-- Social Media Vertical Left Floating Sidebar -->
+    <aside class="fixed left-6 top-1/2 -translate-y-1/2 z-40 hidden sm:flex flex-col space-y-6 text-xl text-white/80">
+        <a href="https://twitter.com" target="_blank" aria-label="Twitter" class="hover:text-teal-400 hover:scale-110 transition duration-200">
+            <i class="fa-brands fa-twitter"></i>
+        </a>
+        <a href="https://facebook.com" target="_blank" aria-label="Facebook" class="hover:text-teal-400 hover:scale-110 transition duration-200">
+            <i class="fa-brands fa-facebook-f"></i>
+        </a>
+        <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="hover:text-teal-400 hover:scale-110 transition duration-200">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://youtube.com" target="_blank" aria-label="YouTube" class="hover:text-teal-400 hover:scale-110 transition duration-200">
+            <i class="fa-brands fa-youtube"></i>
+        </a>
+    </aside>
+
+    <!-- Main Hero Body Content Section -->
+    <main class="flex-grow flex items-center justify-center pt-28 pb-16 px-6 sm:px-12 md:px-16 lg:px-24">
+        <div class="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Hero Title Text Block (Left) -->
+            <div class="lg:col-span-6 space-y-4 sm:pl-8 lg:pl-12 text-center sm:text-left">
+                <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-none drop-shadow-md">
+                    CONTACT US
+                </h1>
+                <p class="text-xl sm:text-2xl text-slate-200 font-light tracking-wide drop-shadow">
+                    Get in touch
+                </p>
+            </div>
+
+            <!-- Contact Form Container (Right) -->
+            <div class="lg:col-span-6 flex justify-center lg:justify-end">
+                <div class="glass-panel w-full max-w-md rounded-2xl p-6 sm:p-8 shadow-2xl transition-all duration-300">
+                    <form id="contact-form" class="space-y-5" onsubmit="handleFormSubmit(event)">
+                        <!-- Name Field -->
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-white mb-2">Name</label>
+                            <input 
+                                type="text" 
+                                id="name" 
+                                name="name" 
+                                required
+                                placeholder="Enter your name" 
+                                class="w-full px-4 py-3 rounded-lg glass-input text-sm transition duration-200 focus:outline-none"
+                            >
+                        </div>
+
+                        <!-- Email Field -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-white mb-2">Email</label>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                required
+                                placeholder="Enter your email" 
+                                class="w-full px-4 py-3 rounded-lg glass-input text-sm transition duration-200 focus:outline-none"
+                            >
+                        </div>
+
+                        <!-- Message Field -->
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-white mb-2">Message</label>
+                            <textarea 
+                                id="message" 
+                                name="message" 
+                                rows="4" 
+                                required
+                                placeholder="Enter your message" 
+                                class="w-full px-4 py-3 rounded-lg glass-input text-sm transition duration-200 focus:outline-none resize-none"
+                            ></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="pt-2">
+                            <button 
+                                type="submit" 
+                                id="submit-btn"
+                                class="w-full bg-[#0e7490] hover:bg-[#0f766e] text-white font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-teal-900/40 active:scale-[0.99] transition duration-200 flex items-center justify-center gap-2"
+                            >
+                                <span>Submit</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Custom Modal Popup for Form Submission Confirmation -->
+    <div id="modal-backdrop" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 sm:p-8 max-w-sm w-full text-center shadow-2xl transform scale-95 transition-transform duration-300" id="modal-box">
+            <div class="w-16 h-16 bg-teal-500/20 text-teal-400 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Message Sent!</h3>
+            <p class="text-slate-300 text-sm mb-6" id="modal-message">Thank you for reaching out to TravelBloom. We will get back to you shortly!</p>
+            <button onclick="closeModal()" class="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2.5 rounded-lg transition duration-200">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- Interactive Logic -->
+    <script>
+        // Mobile Navigation Toggle Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Form Submission Logic
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const nameInput = document.getElementById('name').value;
+            const submitBtn = document.getElementById('submit-btn');
+
+            // Button Feedback State
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Sending...`;
+
+            setTimeout(() => {
+                // Reset Button State
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span>Submit</span>`;
+
+                // Set personalized confirmation message
+                document.getElementById('modal-message').innerText = `Thank you, ${nameInput}! Your message has been sent successfully to TravelBloom team.`;
+                
+                // Show Modal Popup
+                openModal();
+
+                // Clear input fields
+                document.getElementById('contact-form').reset();
+            }, 800);
+        }
+
+        // Modal Controllers
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const modalBox = document.getElementById('modal-box');
+
+        function openModal() {
+            modalBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+            modalBox.classList.remove('scale-95');
+            modalBox.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            modalBackdrop.classList.add('opacity-0', 'pointer-events-none');
+            modalBox.classList.remove('scale-100');
+            modalBox.classList.add('scale-95');
+        }
+
+        // Close Modal when clicking outside box
+        modalBackdrop.addEventListener('click', (e) => {
+            if (e.target === modalBackdrop) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
